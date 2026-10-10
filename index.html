@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skills Learning Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="login-view" class="auth-screen">
+    <div class="auth-box">
+      <h1>Skills Learning Tracker</h1>
+      <p>Welcome! Create your own account and start building your personal learning roadmap.</p>
+      <div class="auth-form">
+        <label for="login-username">User name</label>
+        <input id="login-username" type="text" placeholder="Enter your user name" />
+
+        <label for="login-password">Password</label>
+        <input id="login-password" type="password" placeholder="Enter your password" />
+
+        <div class="auth-actions">
+          <button id="create-account-btn" type="button" class="secondary-btn">Create Account</button>
+          <button id="login-btn" type="button">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="app-shell" class="container" style="display: none;">
+    <header class="header-row">
+      <div>
+        <h1>Skills Learning Tracker</h1>
+        <p>Track your progress across any skill path • Auto-saves in your browser</p>
+      </div>
+      <div class="header-actions">
+        <button id="profile-chip" class="profile-chip" type="button">
+          <span class="profile-avatar" id="profile-avatar">U</span>
+          <span id="profile-chip-name">Profile</span>
+        </button>
+      </div>
+    </header>
+
+    <div id="dashboard-view">
+      <div class="stats-box">
+        <div class="stat-info">
+          <span id="stat-count">0 of 62 Completed</span>
+          <strong id="stat-pct">0%</strong>
+        </div>
+        <div class="bar-bg">
+          <div id="bar-fill" class="bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="page-switcher">
+        <button class="page-btn active" id="page-choose-btn">Page 1: Learning Topics</button>
+        <button class="page-btn" id="page-sdet-btn">Page 2: SDET Learning Plan</button>
+        <button class="page-btn" id="page-python-btn">Page 3: Python Learning Plan</button>
+      </div>
+
+      <section id="view-choose" class="page-view">
+      <div class="intro-box">
+        <h2>Choose your learning path</h2>
+        <p>Select a skill track. New users can start by creating their own custom skill plan.</p>
+      </div>
+
+      <div class="custom-skill-box">
+        <div class="custom-skill-toolbar">
+          <h3>Add your own skill</h3>
+        </div>
+        <div class="custom-skill-form">
+          <input id="custom-skill-name" type="text" placeholder="Skill name e.g. Java, SQL, DevOps" />
+          <button id="add-custom-skill-btn" type="button" class="add-custom-skill-btn">Add Skill</button>
+        </div>
+      </div>
+
+      <div id="learning-paths-container" class="learning-paths-grid"></div>
+    </section>
+
+    <section id="view-sdet" class="page-view" style="display: none;">
+      <div class="plan-header-row" style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
+        <div class="tabs" style="flex:1;">
+          <button class="tab-btn active" id="tab-daily-btn">Daily Learning Plan</button>
+          <button class="tab-btn" id="tab-projects-btn">Practice Projects</button>
+          <button class="tab-btn" id="tab-matrix-btn">Skill Matrix</button>
+        </div>
+        <button id="close-plan-btn" type="button" class="secondary-btn">Close</button>
+      </div>
+
+      <div id="daily-panel" class="tab-panel">
+        <div class="filters">
+          <select id="week-filter">
+            <option value="all">All 8 Weeks (62 Days)</option>
+            <option value="Week 1">Week 1: TypeScript Core & Git</option>
+            <option value="Week 2">Week 2: Advanced Web DOM & POM</option>
+            <option value="Week 3">Week 3: Pro API & Custom Client</option>
+            <option value="Week 4">Week 4: Schema, GraphQL & Mocking</option>
+            <option value="Week 5">Week 5: Contracts, DB & WebSockets</option>
+            <option value="Week 6">Week 6: CI/CD, Sharding & Docker</option>
+            <option value="Week 7">Week 7: AI Agents, k6 Load & A11y</option>
+            <option value="Week 8">Week 8: Bridge, DSA & 16 LPA Defense</option>
+          </select>
+          <select id="status-filter">
+            <option value="all">All Statuses</option>
+            <option value="Not Started">Not Started</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+
+        <div id="cards-container"></div>
+      </div>
+
+      <div id="view-projects" class="tab-panel" style="display: none;">
+        <div id="projects-container"></div>
+      </div>
+
+      <div id="view-matrix" class="tab-panel" style="display: none;">
+        <div id="matrix-container"></div>
+      </div>
+    </section>
+
+    <section id="view-python" class="page-view" style="display: none;">
+      <div class="plan-header-row" style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
+        <div class="tabs" style="flex:1;">
+          <button class="tab-btn active" id="tab-python-daily-btn">Daily Learning Plan</button>
+        </div>
+        <button id="close-python-plan-btn" type="button" class="secondary-btn">Close</button>
+      </div>
+
+      <div class="filters">
+        <select id="python-week-filter">
+          <option value="all">All 8 Weeks (56 Days)</option>
+          <option value="Week 1">Week 1: Python Fundamentals</option>
+          <option value="Week 2">Week 2: Logic, Files & Projects</option>
+          <option value="Week 3">Week 3: OOP & Data Modeling</option>
+          <option value="Week 4">Week 4: Functions & Regex</option>
+          <option value="Week 5">Week 5: Data & APIs</option>
+          <option value="Week 6">Week 6: FastAPI & Testing</option>
+          <option value="Week 7">Week 7: Automation & CI/CD</option>
+          <option value="Week 8">Week 8: Portfolios & Production</option>
+        </select>
+        <select id="python-status-filter">
+          <option value="all">All Statuses</option>
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+
+      <div id="python-cards-container"></div>
+    </section>
+  </div>
+
+  <section id="profile-form-card" class="profile-card" style="display: none;">
+    <div class="profile-header">
+      <h2>My Profile</h2>
+      <div class="profile-actions">
+        <button id="profile-form-edit-btn" type="button" class="secondary-btn" style="display: none;">Edit Profile</button>
+        <button id="save-profile-btn" type="button">Save Profile</button>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+      <div class="field-group">
+        <label for="profile-name">Profile Name</label>
+        <input id="profile-name" type="text" placeholder="Enter your profile name" />
+      </div>
+
+      <div class="field-group">
+        <label for="profile-username">User Name</label>
+        <input id="profile-username" type="text" placeholder="Enter your login user name" />
+      </div>
+
+      <div class="field-group">
+        <label for="profile-role">Role / Title</label>
+        <input id="profile-role" type="text" placeholder="Example: QA Engineer" />
+      </div>
+
+      <div class="field-group">
+        <label for="profile-email">Email</label>
+        <input id="profile-email" type="email" placeholder="you@example.com" />
+      </div>
+
+      <div class="field-group">
+        <label for="profile-focus">Current Focus</label>
+        <input id="profile-focus" type="text" placeholder="Example: SDET, API Testing" />
+      </div>
+
+      <div class="field-group full-width">
+        <label for="profile-bio">About Me</label>
+        <textarea id="profile-bio" rows="4" placeholder="Tell us about your goals, experience, and learning focus..."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section id="profile-details-page" class="profile-page" style="display: none;">
+    <div class="profile-summary-card">
+      <div class="profile-summary-header">
+        <div class="profile-avatar-large" id="profile-avatar-large">U</div>
+        <div>
+          <p class="profile-label">Profile Details</p>
+          <h2 id="profile-detail-name">User Name</h2>
+        </div>
+      </div>
+
+      <div class="profile-detail-grid">
+        <div class="detail-box">
+          <span class="detail-label">User Name</span>
+          <strong id="profile-detail-username">-</strong>
+        </div>
+        <div class="detail-box">
+          <span class="detail-label">Role / Title</span>
+          <strong id="profile-detail-role">-</strong>
+        </div>
+        <div class="detail-box">
+          <span class="detail-label">Email</span>
+          <strong id="profile-detail-email">-</strong>
+        </div>
+        <div class="detail-box">
+          <span class="detail-label">Current Focus</span>
+          <strong id="profile-detail-focus">-</strong>
+        </div>
+        <div class="detail-box full-width">
+          <span class="detail-label">About Me</span>
+          <strong id="profile-detail-bio">-</strong>
+        </div>
+      </div>
+
+      <div class="profile-page-actions">
+        <button id="back-to-dashboard-btn" type="button" class="secondary-btn">Back to Dashboard</button>
+        <button id="profile-details-edit-btn" type="button" class="secondary-btn">Edit Profile</button>
+        <button id="profile-logout-btn" type="button" class="logout-btn">Logout</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
